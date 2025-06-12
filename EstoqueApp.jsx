@@ -1,8 +1,4 @@
-
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import React, { useState } from "react";
 
 const estoqueMinimo = {
   "1615": 20, "1617": 20, "1613": 20, "1614": 20, "1611": 20, "1612": 20,
@@ -40,44 +36,43 @@ export default function EstoqueApp() {
   const itensParaPedido = itens.filter((item) => item.precisaPedir);
 
   return (
-    <div className="p-4 space-y-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold">Controle de Estoque</h1>
-      <Card>
-        <CardContent className="space-y-2 p-4">
-          <Input
-            placeholder="Referência"
-            value={referencia}
-            onChange={(e) => setReferencia(e.target.value)}
-          />
-          <Input
-            placeholder="Quantidade em estoque"
-            type="number"
-            value={quantidade}
-            onChange={(e) => setQuantidade(e.target.value)}
-          />
-          <Button onClick={adicionarItem}>Adicionar</Button>
-        </CardContent>
-      </Card>
+    <div style={{ padding: 20, maxWidth: 600, margin: '0 auto' }}>
+      <h1>Controle de Estoque</h1>
+      <input
+        placeholder="Referência"
+        value={referencia}
+        onChange={(e) => setReferencia(e.target.value)}
+        style={{ display: 'block', marginBottom: 10, padding: 8, width: '100%' }}
+      />
+      <input
+        placeholder="Quantidade em estoque"
+        type="number"
+        value={quantidade}
+        onChange={(e) => setQuantidade(e.target.value)}
+        style={{ display: 'block', marginBottom: 10, padding: 8, width: '100%' }}
+      />
+      <button onClick={adicionarItem} style={{ padding: 10, width: '100%' }}>Adicionar</button>
 
-      <div className="space-y-2">
-        <h2 className="text-xl font-semibold">Itens Conferidos</h2>
-        {itens.map((item, idx) => (
-          <div
-            key={idx}
-            className="p-2 border rounded flex justify-between items-center"
-          >
-            <span>
-              <strong>{item.referencia}</strong> — {item.quantidade} unidades (mín: {item.minimo})
-            </span>
-            {item.precisaPedir && <span className="text-red-600 font-bold">Pedir</span>}
-          </div>
-        ))}
-      </div>
+      <h2 style={{ marginTop: 30 }}>Itens Conferidos</h2>
+      {itens.map((item, idx) => (
+        <div key={idx} style={{
+          border: '1px solid #ccc',
+          padding: 10,
+          marginTop: 10,
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}>
+          <span>
+            <strong>{item.referencia}</strong> — {item.quantidade} unidades (mín: {item.minimo})
+          </span>
+          {item.precisaPedir && <span style={{ color: 'red', fontWeight: 'bold' }}>Pedir</span>}
+        </div>
+      ))}
 
       {itensParaPedido.length > 0 && (
-        <div className="mt-6">
-          <h2 className="text-xl font-bold text-red-600">Produtos para Pedido</h2>
-          <ul className="list-disc ml-5">
+        <div style={{ marginTop: 30 }}>
+          <h2 style={{ color: 'red' }}>Produtos para Pedido</h2>
+          <ul>
             {itensParaPedido.map((item, idx) => (
               <li key={idx}>
                 {item.referencia} — {item.minimo - item.quantidade} unid
